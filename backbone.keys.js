@@ -115,10 +115,17 @@
 			if (keys) {
 				_.each(keys, function(args, key) {
 					var triggerArgs = {};
-					var keys = key.split(' ');
-					var target = keys.length > 1 ? keys[1] : '';
+
+					var keys = key;
+					var target = '';
+
+					if (key.indexOf(' ') >= 0){
+						keys = key.split(' ')[0];
+						target = key.substring(key.indexOf(' ') + 1);
+					}
 
 					var method;
+
 					if (_.isFunction(args)) method = args;
 					else if (_.isFunction(args.action)) method = args.action;
 					else if (args.action) method = this[args.action];
@@ -129,7 +136,7 @@
 					triggerArgs.target = target;
 
 					this.bindTo.push(target);
-					var newKeys = keys[0].replace(/,/g, ' ');
+					var newKeys = keys.replace(/,/g, ' ');
 					this.keyOn(newKeys, triggerArgs);
 				}, this);
 
