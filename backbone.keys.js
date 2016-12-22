@@ -82,16 +82,12 @@
 
 	Backbone.View = Backbone.View.extend({
 
-		// Allow pr view what specific event to use
+		// Allow per view what specific event to use
 		// Keyup is defaulted as it only fires once per keystroke
 		bindKeysOn: 'keyup',
 
-		// The Backbone-y way would be to have
-		// keys scoped to `this.el` as default,
-		// however it would be a bigger surprise
-		// considering how you'd expect keyboard
-		// events to work
-		// But users should be able to choose themselves
+		// Keys are scoped to `this.el` as default.
+		// If you want key definitions scoped globally, set this to false
 		bindKeysScoped: true,
 
 		// The actual element to bind events to
