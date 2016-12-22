@@ -4,7 +4,7 @@
  *     Licensed under the MIT license.
  */
 
-(function(factory) {
+(function (factory) {
 	'use strict';
 
 	if (typeof define === 'function' && define.amd) {
@@ -14,13 +14,13 @@
 		// Browser globals
 		factory(_, Backbone, $);
 	}
-}(function(_, Backbone, $) {
+}(function (_, Backbone, $) {
 	'use strict';
 
 	// Alias the libraries from the global object
 	var oldDelegateEvents = Backbone.View.prototype.delegateEvents;
 	var oldUndelegateEvents = Backbone.View.prototype.undelegateEvents;
-	var getKeyCode = function(key) {
+	var getKeyCode = function (key) {
 		return (key.length === 1) ?
 			key.toUpperCase().charCodeAt(0) : BackboneKeysMap[key];
 	};
@@ -70,14 +70,14 @@
 		f10: 121,
 		f11: 122,
 		f12: 123,
-		fslash : 191
+		fslash: 191
 	};
 
 	// Aliased names to make sense on several platforms
 	_.each({
 		'options': 'alt',
 		'return': 'enter'
-	}, function(real, alias) {
+	}, function (real, alias) {
 		BackboneKeysMap[alias] = BackboneKeysMap[real];
 	});
 
@@ -101,25 +101,25 @@
 		// Clears all callbacks previously bound to the view with `delegateEvents`.
 		// You usually don't need to use this, but may wish to if you have multiple
 		// Backbone views attached to the same DOM element.
-		undelegateEvents: function() {
+		undelegateEvents: function () {
 			this.undelegateKeys();
 			oldUndelegateEvents.apply(this, arguments);
 			return this;
 		},
 
 		// Actual delegate keys
-		delegateKeys: function(keys) {
+		delegateKeys: function (keys) {
 			this.undelegateKeys();
 			this.bindTo = [];
 			keys = keys || (this.keys);
 			if (keys) {
-				_.each(keys, function(args, key) {
+				_.each(keys, function (args, key) {
 					var triggerArgs = {};
 
 					var keys = key;
 					var target = '';
 
-					if (key.indexOf(' ') >= 0){
+					if (key.indexOf(' ') >= 0) {
 						keys = key.split(' ')[0];
 						target = key.substring(key.indexOf(' ') + 1);
 					}
@@ -135,20 +135,21 @@
 					triggerArgs.action = method;
 					triggerArgs.target = target;
 
-					this.bindTo.push(target);
+					this.bindTo.push(triggerArgs);
 					var newKeys = keys.replace(/,/g, ' ');
 					this.keyOn(newKeys, triggerArgs);
 				}, this);
 
-				this.bindTo = _.uniq(this.bindTo);
-				_.each(this.bindTo, function (target) {
-					var triggerArgs = { view: this, target: target };
-					if (target !== '' && this.$el) {
-						this.$el.on('keyup', target, _.bind(this.triggerKey, triggerArgs));
-						this.$el.on('keydown', target, _.bind(this.triggerKey, triggerArgs));
+				this.bindTo = _.uniq(this.bindTo, false, function (val) {
+					return 'on:' + val.on + '|target:' + val.target;
+				});
+
+				_.each(this.bindTo, function (args) {
+					var triggerArgs = { view: this, target: args.target };
+					if (args.target !== '' && this.$el) {
+						this.$el.on(args.on, args.target, _.bind(this.triggerKey, triggerArgs));
 					} else {
-						this.$el.on('keyup', _.bind(this.triggerKey, triggerArgs));
-						this.$el.on('keydown', _.bind(this.triggerKey, triggerArgs));
+						this.$el.on(args.on, _.bind(this.triggerKey, triggerArgs));
 					}
 				}, this);
 			}
@@ -158,7 +159,7 @@
 		},
 
 		// Undelegate keys
-		undelegateKeys: function() {
+		undelegateKeys: function () {
 			this._keyEventBindings = {};
 
 			if (this.$el) {
@@ -167,11 +168,10 @@
 			}
 
 			if (this.bindTo) {
-				_.each(this.bindTo, function(element) {
+				_.each(this.bindTo, function (element) {
 					if (!element) return;
 					if (this.$el) {
-						this.$el.find(element).off('keyup');
-						this.$el.find(element).off('keydown');
+						this.$el.find(element.target).off(element.on);
 					}
 				}, this);
 				this.bindTo = null;
@@ -181,7 +181,7 @@
 
 		// Utility to get the name of a key
 		// based on its keyCode
-		keyName: function(keyCode) {
+		keyName: function (keyCode) {
 			var keyName;
 			for (keyName in BackboneKeysMap)
 				if (BackboneKeysMap[keyName] === keyCode) return keyName;
@@ -190,7 +190,7 @@
 
 		// Internal real listener for key events that
 		// forwards any relevant key presses
-		triggerKey: function(e) {
+		triggerKey: function (e) {
 			var key;
 
 			if (_.isObject(e)) key = e.which;
@@ -206,13 +206,13 @@
 				this.view.altPressed = e['altKey'];
 			}
 
-			_(this.view._keyEventBindings[key]).each(function(listener) {
+			_(this.view._keyEventBindings[key]).each(function (listener) {
 				if (listener.target !== this.target) {
 					return;
 				}
 				var trigger = e.type === listener.on;
 				if (listener.modifiers.length > 0) {
-					trigger = trigger && _(listener.modifiers).all(function(modifier) {
+					trigger = trigger && _(listener.modifiers).all(function (modifier) {
 						return e[modifier + 'Key'] === true;
 					});
 				} else if (this.view.ctrlPressed || this.view.altPressed) {
@@ -240,7 +240,7 @@
 		},
 
 		// Doing the real work of binding key events
-		keyOn: function(key, args) {
+		keyOn: function (key, args) {
 			key = key.split(' ');
 			if (key.length > 1) {
 				var l = key.length;
@@ -268,7 +268,7 @@
 			return this;
 		},
 
-		keyOff: function(key, method) {
+		keyOff: function (key, method) {
 			method = (method || false);
 			if (key === null) {
 				this._keyEventBindings = {};
@@ -282,7 +282,7 @@
 			}
 			this._keyEventBindings[keyCode] = _.filter(
 				this._keyEventBindings[keyCode],
-				function(data, index) {
+				function (data, index) {
 					return data.method === method;
 				}
 			);
