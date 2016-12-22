@@ -1,0 +1,8 @@
+title: Backbone.keys
+description: Bring the keyboard to your backbone views
+google_analytics: UA-7868401-4
+show_downloads: true
+theme: jekyll-theme-midnight
+
+gems:
+  - jekyll-mentions
