@@ -88,13 +88,6 @@
 		// Keyup is defaulted as it only fires once per keystroke
 		bindKeysOn: 'keyup',
 
-		// Keys are scoped to `this.el` as default.
-		// If you want key definitions scoped globally, set this to false
-		bindKeysScoped: true,
-
-		// The actual element to bind events to
-		bindTo: null,
-
 		// Hash of bound listeners
 		_keyEventBindings: null,
 
