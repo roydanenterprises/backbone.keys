@@ -1,4 +1,4 @@
-/*     Backbone.keys 0.1
+/*     Backbone.keys 1.0
  *
  *     Raymond Julin, Keyteq AS, Roydan Enterprises
  *     Licensed under the MIT license.
