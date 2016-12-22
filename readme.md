@@ -1,3 +1,5 @@
+Check out the documentation at https://roydanenterprises.github.io/backbone.keys/
+
 Backbone.keys
 =============
 
