@@ -1,5 +1,3 @@
-Check out the documentation at https://roydanenterprises.github.io/backbone.keys/
-
 Backbone.keys
 =============
 Easily add keyboard support in your Backbone views.
