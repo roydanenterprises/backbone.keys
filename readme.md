@@ -10,6 +10,7 @@ Backbone.keys is made to work declaratively with your existing views.
 
 ### Basic usage
 To use, simply add a `keys` hash to the view. The name of each property should reflect the keys that trigger the event, and the value is the method to be called when the given key or keys are pressed. Multiple keys can be bound to the same action by comma separating them. Modifier keys can also be used by using the syntax `[key]+[modifier]`.
+
 ```javascript
 MyView = Backbone.View.extend({
   keys: {
@@ -25,6 +26,7 @@ MyView = Backbone.View.extend({
 
 ### Targets
 Keys can be configured so they only fire when the given key or keys are pressed and a specific target is focused, instead of the entire view. To bind a key to fire on a specific element, add a jQuery selector after the key events you wish to bind:
+
 ```javascript
 MyView = Backbone.View.extend({
   keys: {
@@ -41,6 +43,7 @@ MyView = Backbone.View.extend({
 
 ### Additional configuration
 For more fine-grained control of each event, an object can be used.
+
 ```javascript
 MyView = Backbone.View.extend({
   keys: {
@@ -61,13 +64,14 @@ MyView = Backbone.View.extend({
 ```
 
 The following options are available:
+
 - `action`: The function to execute when the given key combination occurs. Can be a function or the name of a function on the view.
 - `on`: When the action should be executed. Optional. Valid options are `keyup` and `keydown`. If no value is provided, the `bindKeysOn` value is used.
 
 ## View-Level Configuration
 You can specify the default behavior of key bindings by setting certain properties on the view.
+
 - `bindKeysOn`: Specifies which event the binding should respond to. Possible values: `keyup`, `keydown`. Default: `keyup`
-- `bindKeysScoped`: 
 
 ### Manually binding and unbinding ###
 
@@ -95,8 +99,7 @@ this.keyOff();
 
 Depends on Underscore, Backbone and an underlying DOM library that handles event bindings.
 
-Include in your application *after* DOM library, Underscore, and Backbone have been
-included.
+Include in your application *after* DOM library, Underscore, and Backbone have been included.
 
 ``` html
 <script src="/js/jquery.js"></script>
@@ -106,5 +109,4 @@ included.
 <script src="/js/backbone.keys.js"></script>
 ```
 
-Note that backbone.keys currently overwrites `Backbone.View` to make its usage
-a no-op, part from including it.
+Note that backbone.keys currently overwrites `Backbone.View` to make its usage a no-op, part from including it.
