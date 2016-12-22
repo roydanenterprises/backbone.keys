@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/roydanenterprises/backbone.keys.svg)](https://travis-ci.org/roydanenterprises/backbone.keys)
+
 Check out the documentation at https://roydanenterprises.github.io/backbone.keys/
 
 Backbone.keys
