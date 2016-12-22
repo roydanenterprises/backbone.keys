@@ -12,10 +12,12 @@ describe('Test Backbone.keys', function() {
 
     beforeEach(function() {
         this.view = new View({
-            bindKeysScoped: true,
             noop: function(){},
             keys: {
-                'enter': 'noop'
+                'enter': {
+                    action: 'noop',
+                    on: 'keydown'
+                }
             }
         }).render();
     });
