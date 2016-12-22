@@ -9,7 +9,7 @@ Easily add keyboard support in your Backbone views.
 Backbone.keys is made to work declaratively with your existing views.
 
 ### Basic usage
-To use, simply add a `keys` hash to the view. The name of each property should reflect the keys that trigger the event, and the value is the method to be called when the given key or keys are pressed. Multiple keys can be bound to the same action by comma separating them. Modifier keys can also be used by using the syntax `[key]+[modifier]'.
+To use, simply add a `keys` hash to the view. The name of each property should reflect the keys that trigger the event, and the value is the method to be called when the given key or keys are pressed. Multiple keys can be bound to the same action by comma separating them. Modifier keys can also be used by using the syntax `[key]+[modifier]`.
 ```javascript
 MyView = Backbone.View.extend({
   keys: {
