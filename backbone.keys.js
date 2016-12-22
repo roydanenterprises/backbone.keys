@@ -1,7 +1,9 @@
-//     Backbone.keys.js 0.1
+/*     Backbone.keys 0.1
+ *
+ *     Raymond Julin, Keyteq AS, Roydan Enterprises
+ *     Licensed under the MIT license.
+ */
 
-//     (c) 2012 Raymond Julin, Keyteq AS
-//     Backbone.keys may be freely distributed under the MIT license.
 (function(factory) {
 	'use strict';
 
