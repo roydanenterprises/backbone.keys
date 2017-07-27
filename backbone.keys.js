@@ -112,32 +112,18 @@
 			this.undelegateKeys();
 			this.bindTo = [];
 			keys = keys || (this.keys);
+
+
 			if (keys) {
 				_.each(keys, function (args, key) {
-					var triggerArgs = {};
-
-					var keys = key;
-					var target = '';
-
-					if (key.indexOf(' ') >= 0) {
-						keys = key.split(' ')[0];
-						target = key.substring(key.indexOf(' ') + 1);
+					if (Array.isArray(args)) {
+						_.each(args, function(arg) {
+							this.configureKey(arg, key);
+						}, this);
+					} else {
+						this.configureKey(args, key);
 					}
 
-					var method;
-
-					if (_.isFunction(args)) method = args;
-					else if (_.isFunction(args.action)) method = args.action;
-					else if (args.action) method = this[args.action];
-					else method = this[args];
-
-					triggerArgs.on = args.on || this.bindKeysOn;
-					triggerArgs.action = method;
-					triggerArgs.target = target;
-
-					this.bindTo.push(triggerArgs);
-					var newKeys = keys.replace(/,/g, ' ');
-					this.keyOn(newKeys, triggerArgs);
 				}, this);
 
 				this.bindTo = _.uniq(this.bindTo, false, function (val) {
@@ -156,6 +142,33 @@
 
 
 			return this;
+		},
+
+		configureKey : function(args, index) {
+			var triggerArgs = {};
+
+			var key = index;
+			var target = '';
+
+			if (index.indexOf(' ') >= 0) {
+				key = index.split(' ')[0];
+				target = index.substring(index.indexOf(' ') + 1);
+			}
+
+			var method;
+
+			if (_.isFunction(args)) method = args;
+			else if (_.isFunction(args.action)) method = args.action;
+			else if (args.action) method = this[args.action];
+			else method = this[args];
+
+			triggerArgs.on = args.on || this.bindKeysOn;
+			triggerArgs.action = method;
+			triggerArgs.target = target;
+
+			this.bindTo.push(triggerArgs);
+			var newKeys = key.replace(/,/g, ' ');
+			this.keyOn(newKeys, triggerArgs);
 		},
 
 		// Undelegate keys

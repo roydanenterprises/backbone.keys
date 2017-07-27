@@ -24,7 +24,7 @@ MyView = Backbone.View.extend({
     //Process action
   }
 });
-``` 
+```
 
 ### Targets
 Keys can be configured so they only fire when the given key or keys are pressed and a specific target is focused, instead of the entire view. To bind a key to fire on a specific element, add a jQuery selector after the key events you wish to bind:
@@ -69,6 +69,31 @@ The following options are available:
 
 - `action`: The function to execute when the given key combination occurs. Can be a function or the name of a function on the view.
 - `on`: When the action should be executed. Optional. Valid options are `keyup` and `keydown`. If no value is provided, the `bindKeysOn` value is used.
+
+It is also possible to bind on both the `keyup` and `keydown` event of a single key by using an array of arguments for the key binding.
+
+```javascript
+MyView = Backbone.View.extend({
+  keys: {
+    'enter': [
+      {
+        action: function(e){
+          this.save(e);
+        },
+        on: 'keyup'
+      },
+      {
+        action: function(e){
+          e.preventDefault();
+        },
+        on: 'keydown'
+      }
+    ]
+  }
+});
+```
+
+
 
 ## View-Level Configuration
 You can specify the default behavior of key bindings by setting certain properties on the view.
